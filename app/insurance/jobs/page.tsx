@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import api from "@/lib/api/axios";
 import { Search, ExternalLink, ShieldAlert } from "lucide-react";
 import { toast } from "sonner";
@@ -9,20 +9,21 @@ export default function InsuranceJobs() {
   const [jobs, setJobs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        setLoading(true);
-        const res = await api.get("/api/insurance-portal/jobs");
-        setJobs(res.data.jobs);
-      } catch (err) {
-        toast.error("Failed to load jobs");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchJobs();
+  const fetchJobs = useCallback(async () => {
+    try {
+      setLoading(true);
+      const res = await api.get("/api/insurance-portal/jobs");
+      setJobs(res.data.jobs);
+    } catch (err) {
+      toast.error("Failed to load jobs");
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchJobs();
+  }, [fetchJobs]);
 
   return (
     <div className="space-y-6">

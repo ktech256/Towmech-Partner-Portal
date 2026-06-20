@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import api from "@/lib/api/axios";
 import { Plus, Ticket, UserCheck, Clock, XCircle, Search, Copy, Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -10,7 +10,7 @@ export default function FleetDrivers() {
   const [loading, setLoading] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const loadCodes = async () => {
+  const loadCodes = useCallback(async () => {
     try {
       setLoading(true);
       const res = await api.get("/api/fleet-portal/driver-codes/usage");
@@ -20,11 +20,11 @@ export default function FleetDrivers() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     loadCodes();
-  }, []);
+  }, [loadCodes]);
 
   const handleGenerate = async () => {
     try {
@@ -82,7 +82,7 @@ export default function FleetDrivers() {
                {loading ? (
                   <tr><td colSpan={5} className="px-8 py-20 text-center text-slate-400">Loading...</td></tr>
                ) : codes.length === 0 ? (
-                  <tr><td colSpan={5} className="px-8 py-20 text-center text-slate-400">No codes found. Click "Generate" to start.</td></tr>
+                  <tr><td colSpan={5} className="px-8 py-20 text-center text-slate-400">No codes found. Click &quot;Generate&quot; to start.</td></tr>
                ) : (
                   codes.map((c) => {
                      const isExpired = new Date(c.expiresAt) < new Date();

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import api from "@/lib/api/axios";
 import { Users, Truck, Clock, CheckCircle2, TrendingUp, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
@@ -9,19 +9,20 @@ export default function FleetDashboard() {
   const [metrics, setMetrics] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchMetrics = async () => {
-      try {
-        const res = await api.get("/api/fleet-portal/metrics");
-        setMetrics(res.data);
-      } catch (err) {
-        toast.error("Failed to load dashboard metrics");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchMetrics();
+  const fetchMetrics = useCallback(async () => {
+    try {
+      const res = await api.get("/api/fleet-portal/metrics");
+      setMetrics(res.data);
+    } catch (err) {
+      toast.error("Failed to load dashboard metrics");
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchMetrics();
+  }, [fetchMetrics]);
 
   if (loading) return <div>Loading...</div>;
 

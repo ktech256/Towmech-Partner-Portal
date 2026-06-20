@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import api from "@/lib/api/axios";
 import { Download, Calendar, Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -13,7 +13,7 @@ export default function InsuranceStatements() {
     to: new Date().toISOString().split('T')[0],
   });
 
-  const loadStatements = async () => {
+  const loadStatements = useCallback(async () => {
     try {
       setLoading(true);
       const res = await api.get("/api/insurance-portal/statements", { params: filters });
@@ -23,11 +23,11 @@ export default function InsuranceStatements() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters]);
 
   useEffect(() => {
     loadStatements();
-  }, []);
+  }, [loadStatements]);
 
   return (
     <div className="space-y-8">

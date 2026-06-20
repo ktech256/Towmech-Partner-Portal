@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import api from "@/lib/api/axios";
 import { Plus, Ticket, Search, XCircle, Loader2, Download } from "lucide-react";
 import { toast } from "sonner";
@@ -10,7 +10,7 @@ export default function InsuranceCodes() {
   const [loading, setLoading] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const loadCodes = async () => {
+  const loadCodes = useCallback(async () => {
     try {
       setLoading(true);
       const res = await api.get("/api/admin/insurance/codes"); // Reusing admin route since partners are scoped
@@ -20,11 +20,11 @@ export default function InsuranceCodes() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     loadCodes();
-  }, []);
+  }, [loadCodes]);
 
   const handleGenerate = async () => {
     try {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import api from "@/lib/api/axios";
 import { Search, Info, MapPin } from "lucide-react";
 import { toast } from "sonner";
@@ -9,21 +9,22 @@ export default function FleetMap() {
   const [markers, setMarkers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const fetchMap = useCallback(async () => {
+    try {
+      const res = await api.get("/api/fleet-portal/live-map");
+      setMarkers(res.data.markers);
+    } catch (err) {
+      toast.error("Failed to load map data");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
-    const fetchMap = async () => {
-      try {
-        const res = await api.get("/api/fleet-portal/live-map");
-        setMarkers(res.data.markers);
-      } catch (err) {
-        toast.error("Failed to load map data");
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchMap();
     const interval = setInterval(fetchMap, 15000); // 15s refresh
     return () => clearInterval(interval);
-  }, []);
+  }, [fetchMap]);
 
   return (
     <div className="space-y-6 h-full flex flex-col">

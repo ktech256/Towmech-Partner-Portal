@@ -24,7 +24,7 @@ export default function FleetLayout({ children }: { children: React.ReactNode })
       return;
     }
     setUser(JSON.parse(savedUser));
-  }, []);
+  }, [router]);
 
   const handleLogout = () => {
     localStorage.removeItem("partner_token");

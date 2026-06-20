@@ -24,7 +24,7 @@ export default function InsuranceLayout({ children }: { children: React.ReactNod
       return;
     }
     setUser(JSON.parse(savedUser));
-  }, []);
+  }, [router]);
 
   const handleLogout = () => {
     localStorage.removeItem("partner_token");
