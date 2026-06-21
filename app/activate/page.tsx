@@ -24,10 +24,11 @@ function ActivationForm() {
     confirmPassword: ""
   });
   const [submitting, setSubmitting] = useState(false);
+  const [isActivated, setIsActivated] = useState(false);
 
   useEffect(() => {
-    if (!token) {
-      setError("Activation token is missing. Please request a new invitation.");
+    if (!token || isActivated) {
+      if (!token && !isActivated) setError("Activation token is missing. Please request a new invitation.");
       setValidating(false);
       setLoading(false);
       return;
@@ -38,7 +39,10 @@ function ActivationForm() {
         const res = await api.post("/api/partner-auth/activate/validate", { token });
         setPartner(res.data.partner);
       } catch (err: any) {
-        setError(err.response?.data?.message || "Invalid or expired activation link.");
+        // If we just activated, ignore 404/expired errors from background validation re-runs
+        if (!isActivated) {
+          setError(err.response?.data?.message || "Invalid or expired activation link.");
+        }
       } finally {
         setValidating(false);
         setLoading(false);
@@ -46,7 +50,7 @@ function ActivationForm() {
     };
 
     validateToken();
-  }, [token]);
+  }, [token, isActivated]);
 
   const handleActivate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,6 +69,7 @@ function ActivationForm() {
         token,
         password: passwords.password
       });
+      setIsActivated(true);
       toast.success("Account activated successfully!");
       router.push("/");
     } catch (err: any) {
