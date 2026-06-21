@@ -5,6 +5,9 @@ import { useSearchParams, useRouter } from "next/navigation";
 import api from "@/lib/api/axios";
 import { toast } from "sonner";
 import { Building2, Lock, Loader2, CheckCircle, XCircle } from "lucide-react";
+import { PasswordInput } from "@/components/ui/password-input";
+import { Input } from "@/components/ui/input";
+
 
 function ActivationForm() {
   const searchParams = useSearchParams();
@@ -106,34 +109,24 @@ function ActivationForm() {
 
           <div className="space-y-2">
             <label className="text-sm font-semibold text-slate-700">Create Password</label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
-              <input
-                type="password"
-                required
-                minLength={6}
-                className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-slate-900 outline-none transition"
-                placeholder="••••••••"
-                value={passwords.password}
-                onChange={(e) => setPasswords({ ...passwords, password: e.target.value })}
-              />
-            </div>
+            <PasswordInput
+              required
+              minLength={6}
+              placeholder="••••••••"
+              value={passwords.password}
+              onChange={(e) => setPasswords({ ...passwords, password: e.target.value })}
+            />
           </div>
 
           <div className="space-y-2">
             <label className="text-sm font-semibold text-slate-700">Confirm Password</label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
-              <input
-                type="password"
-                required
-                minLength={6}
-                className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-slate-900 outline-none transition"
-                placeholder="••••••••"
-                value={passwords.confirmPassword}
-                onChange={(e) => setPasswords({ ...passwords, confirmPassword: e.target.value })}
-              />
-            </div>
+            <PasswordInput
+              required
+              minLength={6}
+              placeholder="••••••••"
+              value={passwords.confirmPassword}
+              onChange={(e) => setPasswords({ ...passwords, confirmPassword: e.target.value })}
+            />
           </div>
 
           <button

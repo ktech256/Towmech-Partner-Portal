@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 import api from "@/lib/api/axios";
 import { toast } from "sonner";
 import { Building2, Lock, Mail, ArrowRight, Loader2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
+
 
 export default function LoginPage() {
   const router = useRouter();
@@ -74,11 +77,11 @@ export default function LoginPage() {
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-slate-700">Email Address</label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
-                  <input
+                  <Mail className="absolute left-3 top-3 h-5 w-5 text-slate-400 z-10" />
+                  <Input
                     type="email"
                     required
-                    className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-slate-900 outline-none transition"
+                    className="pl-10"
                     placeholder="name@company.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -88,17 +91,12 @@ export default function LoginPage() {
 
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-slate-700">Password</label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
-                  <input
-                    type="password"
-                    required
-                    className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 focus:ring-2 focus:ring-slate-900 outline-none transition"
-                    placeholder="••••••••"
-                    value={formData.password}
-                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  />
-                </div>
+                <PasswordInput
+                  required
+                  placeholder="••••••••"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                />
               </div>
 
               <button
@@ -118,11 +116,11 @@ export default function LoginPage() {
 
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-slate-700">Verification Code</label>
-                <input
+                <Input
                   type="text"
                   required
                   maxLength={6}
-                  className="w-full text-center text-2xl tracking-widest py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-slate-900 outline-none transition"
+                  className="text-center text-2xl tracking-widest h-14"
                   placeholder="000000"
                   value={formData.otp}
                   onChange={(e) => setFormData({ ...formData, otp: e.target.value.replace(/\D/g, "") })}

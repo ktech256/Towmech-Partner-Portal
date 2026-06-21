@@ -4,6 +4,8 @@ import { useEffect, useState, useCallback } from "react";
 import api from "@/lib/api/axios";
 import { Download, Calendar, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
+
 
 export default function InsuranceStatements() {
   const [data, setData] = useState<any>(null);
@@ -39,18 +41,18 @@ export default function InsuranceStatements() {
          <div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-2 bg-slate-50 border rounded-xl px-4 py-2">
                <Calendar className="w-4 h-4 text-slate-400" />
-               <input
+               <Input
                   type="date"
                   value={filters.from}
                   onChange={(e) => setFilters({...filters, from: e.target.value})}
-                  className="bg-transparent text-sm font-bold outline-none"
+                  className="bg-transparent border-none px-0 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 font-bold"
                />
                <span className="text-slate-300 font-bold px-1">to</span>
-               <input
+               <Input
                   type="date"
                   value={filters.to}
                   onChange={(e) => setFilters({...filters, to: e.target.value})}
-                  className="bg-transparent text-sm font-bold outline-none"
+                  className="bg-transparent border-none px-0 h-auto focus-visible:ring-0 focus-visible:ring-offset-0 font-bold"
                />
             </div>
             <button
