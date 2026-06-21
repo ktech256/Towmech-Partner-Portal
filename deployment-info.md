@@ -12,6 +12,8 @@
 ### Backend
 *   `JWT_SECRET`: Secret for signing partner tokens.
 *   `DEFAULT_COUNTRY`: Default isolation workspace (e.g., ZA).
+*   `EMAIL_USER`: SMTP username (Gmail/SendGrid/etc).
+*   `EMAIL_PASS`: SMTP password or App Password.
 *   `ENABLE_OTP_DEBUG`: Set to `true` for staging/dev.
 *   `STATIC_OTP`: Optional static code for testing.
 
